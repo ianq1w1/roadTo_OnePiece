@@ -1,0 +1,24 @@
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+.ilha {
+    width: 30px;
+    height: 30px;
+    background-color: lightblue;
+    border: 1px solid #000;
+    border-radius: 50%;
+    position: absolute;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.aresta {
+    position: absolute;
+    border: 1px solid black;  /* Adicione uma borda para tornar as arestas visíveis */
+}
+

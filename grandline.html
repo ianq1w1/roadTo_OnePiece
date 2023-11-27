@@ -3,38 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        .ilha {
-            width: 30px;
-            height: 30px;
-            background-color: lightblue;
-            border: 1px solid #000;
-            border-radius: 50%;
-            position: absolute;
-            cursor: pointer;
-        }
-    </style>
-    <title>One Piece Adventure</title>
+    <link rel="stylesheet" href="estilo.css">
+    <title>Grafo com Dijkstra</title>
 </head>
 <body>
     <script src="map.js"></script>
-    <script>
-        const meuGrafo = new Grafo();
-
-        const ilhas = ['Lode Star', 'Ilha1', 'Ilha2', 'Ilha3'];
-
-        ilhas.forEach(ilha => {
-            const elemento = document.createElement('div');
-            elemento.id = ilha;
-            elemento.className = 'ilha';
-            elemento.style.top = `${Math.random() * 300}px`;
-            elemento.style.left = `${Math.random() * 300}px`;
-            document.body.appendChild(elemento);
-
-            elemento.addEventListener('click', () => {
-                mostrarRotaMaisSegura('Lode Star', ilha);
-            });
-        });
-    </script>
 </body>
 </html>
