@@ -1,182 +1,208 @@
-class Grafo {
-    constructor() {
-        this.vertices = {};
+
+  const graph = {
+    nodes: [],
+    edges: [
+      { source: 'wano', target: 'dressrosa', weight: 5 },
+      { source: 'dressrosa', target: 'punk hazard', weight: 2 },
+      { source: 'punk hazard', target: 'homens-peixe', weight: 3 },
+      { source: 'homens-peixe', target: 'wano', weight: 1 },
+      { source: 'wano', target: 'egghead', weight: 5 },
+      { source: 'egghead', target: 'whole cake', weight: 5 },
+      { source: 'whole cake', target: 'punk hazard', weight: 2 },
+    ],
+    names: ['wano', 'dressrosa', 'punk hazard', 'homens-peixe', 'egghead', 'whole cake', 'elbaf'],
+  };
+  
+  // Restante do código...
+  
+  // Função para inicializar o grafo com vértices em posições aleatórias
+    // Função para gerar posições aleatórias
+    function getRandomPosition() {
+      return Math.floor(Math.random() * 300) + 50; // Ajuste conforme necessário
     }
-
-    adicionarVertice(ilha, x, y) {
-        this.vertices[ilha] = { x, y, arestas: {} };
-    }
-
-    adicionarAresta(ilha1, ilha2, peso) {
-        this.vertices[ilha1].arestas[ilha2] = peso;
-        this.vertices[ilha2].arestas[ilha1] = peso;
-    }
-
-    dijkstra(origem) {
-        const distancias = {};
-        const visitados = {};
-
-        for (const vertice in this.vertices) {
-            distancias[vertice] = Infinity;
-            visitados[vertice] = false;
-        }
-
-        distancias[origem] = 0;
-
-        for (let i = 0; i < Object.keys(this.vertices).length - 1; i++) {
-            const verticeAtual = this.minDistancia(distancias, visitados);
-            visitados[verticeAtual] = true;
-
-            for (const vizinho in this.vertices[verticeAtual].arestas) {
-                const distancia = distancias[verticeAtual] + this.vertices[verticeAtual].arestas[vizinho];
-
-                if (distancia < distancias[vizinho]) {
-                    distancias[vizinho] = distancia;
-                }
-            }
-        }
-
-        return distancias;
-    }
-
-    minDistancia(distancias, visitados) {
-        let min = Infinity;
-        let minVertice = null;
-
-        for (const vertice in this.vertices) {
-            if (!visitados[vertice] && distancias[vertice] <= min) {
-                min = distancias[vertice];
-                minVertice = vertice;
-            }
-        }
-
-        return minVertice;
-    }
-}
-
-const meuGrafo = new Grafo();
-let origem = null;
-let destino = null;
-
-document.addEventListener('DOMContentLoaded', () => {
-    const body = document.body;
-
-    const barco = document.createElement('div');
-    barco.id = 'barco';
-    barco.style.width = '30px';
-    barco.style.height = '30px';
-    barco.style.background = 'url("merry.png")';  // Substitua pelo caminho da imagem do barco
-    barco.style.backgroundSize = 'cover';
-    barco.style.position = 'absolute';
-    barco.style.display = 'none';
-    body.appendChild(barco);
-
-    // Adiciona as ilhas
-    meuGrafo.adicionarVertice('Ilha1', 50, 50);
-    meuGrafo.adicionarVertice('Ilha2', 150, 50);
-    meuGrafo.adicionarVertice('Ilha3', 250, 50);
-    meuGrafo.adicionarVertice('Ilha4', 50, 150);
-    meuGrafo.adicionarVertice('Ilha5', 150, 200);
-
-    // Conecta as ilhas para formar um grafo
-    meuGrafo.adicionarAresta('Ilha1', 'Ilha2', 3);
-    meuGrafo.adicionarAresta('Ilha1', 'Ilha3', 2);
-    meuGrafo.adicionarAresta('Ilha1', 'Ilha4', 4);
-    meuGrafo.adicionarAresta('Ilha1', 'Ilha5', 4);
-    meuGrafo.adicionarAresta('Ilha2', 'Ilha3', 1);
-    meuGrafo.adicionarAresta('Ilha2', 'Ilha5', 5);
-    meuGrafo.adicionarAresta('Ilha3', 'Ilha5', 8);
-    meuGrafo.adicionarAresta('Ilha4', 'Ilha5', 6);
-
-    for (const ilha in meuGrafo.vertices) {
-        const elemento = document.createElement('div');
-        elemento.className = 'ilha';
-        elemento.style.top = `${meuGrafo.vertices[ilha].y}px`;
-        elemento.style.left = `${meuGrafo.vertices[ilha].x}px`;
-        elemento.textContent = ilha;
-        elemento.addEventListener('click', () => selecionarIlha(ilha));
-        body.appendChild(elemento);
-    }
-
-    // Adiciona as arestas
-
-// Adiciona as arestas
-for (const ilha1 in meuGrafo.vertices) {
-    for (const ilha2 in meuGrafo.vertices[ilha1].arestas) {
-        const elemento = document.createElement('div');
-        elemento.className = 'aresta';
-        elemento.id = `${ilha1}-${ilha2}`;
-
-        const x1 = meuGrafo.vertices[ilha1].x;
-        const y1 = meuGrafo.vertices[ilha1].y;
-        const x2 = meuGrafo.vertices[ilha2].x;
-        const y2 = meuGrafo.vertices[ilha2].y;
-
-        const deltaX = x2 - x1;
-        const deltaY = y2 - y1;
-        const distancia = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-        const angulo = Math.atan2(deltaY, deltaX);
-
-        elemento.style.top = `${y1 + deltaY / 2}px`;
-        elemento.style.left = `${x1 + deltaX / 2}px`;
-        elemento.style.width = `${distancia}px`;
-        elemento.style.transform = `rotate(${angulo}rad)`;
-
-        body.appendChild(elemento);
-    }
-}
-
     
-});
-
-function selecionarIlha(ilha) {
-    const barco = document.getElementById('barco');
-
-    if (!origem) {
-        origem = ilha;
-        console.log(`Origem: ${origem}`);
-        marcarOrigem(ilha, barco);
-    } else if (!destino) {
-        destino = ilha;
-        console.log(`Destino: ${destino}`);
-        const distancias = meuGrafo.dijkstra(origem);
-        console.log(`Rota mais segura de ${origem} para ${destino}: ${distancias[destino]}`);
-        marcarMelhorRota(distancias);
-        marcarDestino(ilha, barco);
-        origem = null;
-        destino = null;
+  function initializeGraph() {
+    for (let i = 0; i < 6; i++) {
+      const name = graph.names[i];
+      graph.nodes.push({ id: name, x: getRandomPosition(), y: getRandomPosition(), name });
     }
-}
+  }
+  initializeGraph();
+  
+  let originNodeId = null;
+  let destinationNodeId = null;
+  
 
-function marcarOrigem(ilha, barco) {
-    barco.style.display = 'block';
-    barco.style.top = `${meuGrafo.vertices[ilha].y - 15}px`;
-    barco.style.left = `${meuGrafo.vertices[ilha].x - 15}px`;
-}
+  
 
-function marcarDestino(ilha, barco) {
-    barco.style.top = `${meuGrafo.vertices[ilha].y - 15}px`;
-    barco.style.left = `${meuGrafo.vertices[ilha].x - 15}px`;
-}
+// Algoritmo de Dijkstra
+function dijkstra(graph, startNodeId, targetNodeId) {
+  // Inicialização de estruturas de dados
+  const distances = {};
+  const previous = {};
+  const queue = [];
 
-function marcarMelhorRota(distancias) {
-    const arestas = document.querySelectorAll('.aresta');
+  // Inicializa as distâncias e predecessores
+  for (const node of graph.nodes) {
+    distances[node.id] = Infinity;
+    previous[node.id] = null;
+    queue.push(node.id);
+  }
 
-    arestas.forEach(aresta => {
-        aresta.style.backgroundColor = 'black'; // Reset para a cor original
-    });
+  // A distância de startNodeId até ele mesmo é 0
+  distances[startNodeId] = 0;
 
-    let ilhaAtual = destino;
+  // Algoritmo principal de Dijkstra
+  while (queue.length > 0) {
+    // Encontra o nó na fila com a menor distância conhecida
+    let minDistance = Infinity;
+    let current = null;
 
-    while (ilhaAtual !== origem) {
-        const arestaId = `${ilhaAtual}-${distancias[ilhaAtual]}`;
-        const aresta = document.getElementById(arestaId);
+    for (const nodeId of queue) {
+      if (distances[nodeId] < minDistance) {
+        minDistance = distances[nodeId];
+        current = nodeId;
+      }
+    }
 
-        if (aresta) {
-            aresta.style.backgroundColor = 'red';
-            ilhaAtual = distancias[ilhaAtual];
-        } else {
-            break;
+    // Remove o nó atual da fila
+    const currentIndex = queue.indexOf(current);
+    queue.splice(currentIndex, 1);
+
+    // Atualiza as distâncias dos vizinhos do nó atual
+    for (const edge of graph.edges) {
+      if (edge.source === current || edge.target === current) {
+        const neighborId = edge.source === current ? edge.target : edge.source;
+        const newDistance = distances[current] + edge.weight;
+
+        // Se encontrar um caminho mais curto para o vizinho, atualiza as informações
+        if (newDistance < distances[neighborId]) {
+          distances[neighborId] = newDistance;
+          previous[neighborId] = current;
         }
+      }
     }
+  }
+
+  // Reconstrói o caminho mínimo a partir do nó de destino
+  const path = [];
+  let current = targetNodeId;
+
+  while (current !== null) {
+    path.unshift(current);
+    current = previous[current];
+  }
+
+  return path;
 }
+
+// Função para desenhar o caminho encontrado
+function drawGraph() {
+  const svg = document.getElementById('graph');
+  svg.innerHTML = '';  // Limpa o conteúdo existente
+
+  // Desenha as arestas
+  graph.edges.forEach(edge => {
+    const source = graph.nodes.find(node => node.id === edge.source);
+    const target = graph.nodes.find(node => node.id === edge.target);
+
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', source.x);
+    line.setAttribute('y1', source.y);
+    line.setAttribute('x2', target.x);
+    line.setAttribute('y2', target.y);
+    svg.appendChild(line);
+  });
+
+  // Desenha os vértices
+  graph.nodes.forEach(node => {
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', node.x);
+    circle.setAttribute('cy', node.y);
+    circle.setAttribute('r', 15);
+    svg.appendChild(circle);
+
+    // Adiciona texto com o nome do vértice
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('x', node.x);
+    text.setAttribute('y', node.y + 5); // Ajusta a posição vertical do texto
+    text.setAttribute('text-anchor', 'middle');
+    text.textContent = node.name;
+    svg.appendChild(text);
+  });
+}
+
+
+function drawPath(path) {
+  const svg = document.getElementById('graph');
+  const nodeElements = {};
+
+  // Mapeia cada nó para o seu elemento SVG correspondente
+  graph.nodes.forEach(node => {
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', node.x);
+    circle.setAttribute('cy', node.y);
+    circle.setAttribute('r', 15);
+    svg.appendChild(circle);
+    nodeElements[node.id] = circle;
+  });
+
+  // Desenha o caminho
+  for (let i = 0; i < path.length - 1; i++) {
+    const sourceId = path[i];
+    const targetId = path[i + 1];
+
+    const source = nodeElements[sourceId];
+    const target = nodeElements[targetId];
+
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', source.getAttribute('cx'));
+    line.setAttribute('y1', source.getAttribute('cy'));
+    line.setAttribute('x2', target.getAttribute('cx'));
+    line.setAttribute('y2', target.getAttribute('cy'));
+    line.setAttribute('stroke', 'red');
+    line.setAttribute('stroke-width', '2');
+    svg.appendChild(line);  // Adiciona a linha diretamente ao SVG
+  }
+}
+
+
+
+// Inicialização
+drawGraph();
+
+let startNodeId = null;
+let targetNodeId = null;
+
+
+const svg = document.getElementById('graph');
+svg.addEventListener('click', (event) => {
+  const x = event.clientX - svg.getBoundingClientRect().left;
+  const y = event.clientY - svg.getBoundingClientRect().top;
+
+  const clickedNode = graph.nodes.find(node => {
+    const distance = Math.sqrt((node.x - x) ** 2 + (node.y - y) ** 2);
+    return distance <= 15;
+  });
+
+  if (clickedNode) {
+    if (!startNodeId) {
+      startNodeId = clickedNode.id;
+      // Adiciona uma borda ao círculo do nó clicado para indicar origem
+      //const circle = svg.querySelector(`circle[data-id="${startNodeId}"]`);
+      //circle.setAttribute( 'blue');  // Adapte a cor conforme necessário
+    } else {
+      targetNodeId = clickedNode.id;
+      const path = dijkstra(graph, startNodeId, targetNodeId);
+      drawPath(path);
+
+      // Remove a borda do nó que foi clicado anteriormente como origem
+     // const previousStartCircle = svg.querySelector(`circle[data-id="${startNodeId}"]`);
+      //previousStartCircle.removeAttribute('stroke');
+
+      // Reinicializa para permitir novas buscas
+      startNodeId = null;
+      targetNodeId = null;
+    }
+  }
+});
