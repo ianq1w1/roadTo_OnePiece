@@ -1,7 +1,22 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: url('https://steamuserimages-a.akamaihd.net/ugc/403433703411638446/9A3EF40861A35BA4B2E1777E19CBAE68B8F4E6E3/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false') center center fixed;
+    background-size: cover;
+}
+
 svg {
-    width: 400px;
-    height: 400px;
+    width: 700px;
+    height: 700px;
     border: 1px solid #ccc;
+    margin: 0 auto;
+    background: url('https://media.discordapp.net/attachments/957479986548326470/1181011787173339196/NewCanvas1.png?ex=657f81f0&is=656d0cf0&hm=6e944bf8fdcba6cee740dc88c171924d7e2a7cf4128746df8f61f2bc15117cfb&=&format=webp&quality=lossless');
+    background-size: cover;
 }
 
 circle {
