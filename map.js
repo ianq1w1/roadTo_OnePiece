@@ -3,7 +3,9 @@
     nodes: [],
     edges: [
       { source: 'wano', target: 'dressrosa', weight: 5 },
+      { source: 'dressrosa', target: 'wano', weight: 5 },
       { source: 'dressrosa', target: 'punk hazard', weight: 2 },
+      { source: 'punk hazard', target: 'dressrosa', weight: 2 },
       { source: 'punk hazard', target: 'homens-peixe', weight: 3 },
       { source: 'homens-peixe', target: 'wano', weight: 1 },
       { source: 'wano', target: 'egghead', weight: 5 },
@@ -18,7 +20,7 @@
   // Função para inicializar o grafo com vértices em posições aleatórias
     // Função para gerar posições aleatórias
     function getRandomPosition() {
-      return Math.floor(Math.random() * 300) + 50; // Ajuste conforme necessário
+      return Math.floor(Math.random() * 400) + 250; // Ajuste conforme necessário
     }
     
   function initializeGraph() {
